@@ -1182,6 +1182,9 @@ void ImGui_ImplVulkan_Shutdown()
 {
     ImGui_ImplVulkan_Data* bd = ImGui_ImplVulkan_GetBackendData();
     IM_ASSERT(bd != nullptr && "No renderer backend to shutdown, or already shutdown?");
+    ImGui_ImplVulkan_InitInfo* v = &bd->VulkanInitInfo;
+    VkResult err = vkDeviceWaitIdle(v->Device);
+    check_vk_result(err);
     ImGuiIO& io = ImGui::GetIO();
 
     // First destroy objects in all viewports
