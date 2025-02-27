@@ -28,7 +28,6 @@ struct ImFileDialogInfo
     ImGuiFileDialogType type;
 
     std::filesystem::path fileName;
-    std::filesystem::path defaultPath;
     std::filesystem::path directoryPath;
     std::filesystem::path resultPath;
 

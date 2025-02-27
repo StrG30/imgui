@@ -81,7 +81,7 @@ bool ImGui::FileDialog(ImFileDialogInfo* dialogInfo)
             dialogInfo->refreshPaths();
 
         // Draw path
-        ImGui::Text("Path: %s", dialogInfo->directoryPath.string().c_str());
+        ImGui::Text("Path: %s", (std::filesystem::current_path() / dialogInfo->directoryPath).string().c_str());
 
         ImGui::BeginChild("##browser", ImVec2(ImGui::GetContentRegionAvail().x, 300), true, ImGuiWindowFlags_HorizontalScrollbar);
         ImGui::Columns(4);
@@ -220,7 +220,7 @@ bool ImGui::FileDialog(ImFileDialogInfo* dialogInfo)
         size_t index = 0;
 
         // Draw parent
-        if (dialogInfo->directoryPath.has_parent_path())
+        if ((std::filesystem::current_path() / dialogInfo->directoryPath).has_parent_path())
         {
             if (ImGui::Selectable("..", dialogInfo->currentIndex == index, ImGuiSelectableFlags_AllowDoubleClick, ImVec2(ImGui::GetContentRegionAvail().x, 0)))
             {
@@ -228,7 +228,7 @@ bool ImGui::FileDialog(ImFileDialogInfo* dialogInfo)
 
                 if (ImGui::IsMouseDoubleClicked(0))
                 {
-                    dialogInfo->directoryPath = dialogInfo->directoryPath.parent_path();
+                    dialogInfo->directoryPath = (std::filesystem::current_path() / dialogInfo->directoryPath).parent_path();
                     dialogInfo->refreshInfo = true;
                 }
             }
